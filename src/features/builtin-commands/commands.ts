@@ -5,6 +5,7 @@ import { RALPH_LOOP_TEMPLATE, CANCEL_RALPH_TEMPLATE } from "./templates/ralph-lo
 import { SWITCH_PLUGIN_TEMPLATE } from "./templates/switch-plugin"
 import { MEMORY_CONSOLIDATE_TEMPLATE } from "./templates/memory-consolidate"
 import { CONFIGURE_MODELS_TEMPLATE } from "./templates/configure-models"
+import { INIT_SOUL_TEMPLATE } from "./templates/init-soul"
 
 const BUILTIN_COMMAND_DEFINITIONS: Record<BuiltinCommandName, Omit<CommandDefinition, "name">> = {
   "init-deep": {
@@ -68,6 +69,45 @@ $ARGUMENTS
 </user-request>`,
     argumentHint: "<content creation request>",
   },
+  "super-fact-checker": {
+    description: "(builtin) Systematic verification with source credibility assessment",
+    template: `<command-instruction>
+Use the skill tool to load the super-fact-checker skill, then follow its instructions.
+
+Call: skill({ name: "super-fact-checker" })
+</command-instruction>
+
+<user-request>
+$ARGUMENTS
+</user-request>`,
+    argumentHint: "<content or claims to verify>",
+  },
+  "super-editor": {
+    description: "(builtin) 4-layer editing methodology: structure → paragraph → sentence → word",
+    template: `<command-instruction>
+Use the skill tool to load the super-editor skill, then follow its instructions.
+
+Call: skill({ name: "super-editor" })
+</command-instruction>
+
+<user-request>
+$ARGUMENTS
+</user-request>`,
+    argumentHint: "<content to edit>",
+  },
+  "super-interviewer": {
+    description: "(builtin) Dialogue techniques: open questions, 5 whys, Socratic method",
+    template: `<command-instruction>
+Use the skill tool to load the super-interviewer skill, then follow its instructions.
+
+Call: skill({ name: "super-interviewer" })
+</command-instruction>
+
+<user-request>
+$ARGUMENTS
+</user-request>`,
+    argumentHint: "<topic or question to explore>",
+  },
   "memory-consolidate": {
     description: "(builtin) Consolidate daily memory logs into MEMORY.md",
     template: `<command-instruction>
@@ -78,6 +118,12 @@ ${MEMORY_CONSOLIDATE_TEMPLATE}
     description: "(builtin) Configure Agent models based on available providers",
     template: `<command-instruction>
 ${CONFIGURE_MODELS_TEMPLATE}
+</command-instruction>`,
+  },
+  "init-soul": {
+    description: "(builtin) Create or reset SOUL.md for customizing Chief's personality",
+    template: `<command-instruction>
+${INIT_SOUL_TEMPLATE}
 </command-instruction>`,
   },
 }
