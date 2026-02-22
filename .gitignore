@@ -8,6 +8,7 @@ dist/
 # IDE
 .idea/
 .vscode/
+
 *.swp
 *.swo
 
@@ -29,3 +30,10 @@ yarn.lock
 test-injection/
 notepad.md
 oauth-success.html
+
+# me
+.opencode/
+vape_news/
+AAA-helpcenter/
+.gitignore
+assets/
