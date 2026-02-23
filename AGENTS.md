@@ -162,28 +162,178 @@ import { spawn } from "node:child_process"
 import { writeFile } from "node:fs/promises"
 ```
 
+## STANDALONE PLUGIN vs EMBEDDED PLUGIN (CRITICAL)
+
+newtype-profile 存在两个版本，代码已经产生差异，**不能混用**：
+
+| | 独立插件 (本仓库) | 内嵌插件 (newtype-cli) |
+|---|---|---|
+| **仓库** | `newtype-profile` | `newtype-cli/packages/newtype-profile/` |
+| **用途** | 作为 OpenCode 插件安装 | 内嵌在 Newtype CLI 产品中 |
+| **配置路径** | `~/.config/opencode/newtype-profile.json` | `~/.config/newtype/newtype-profile.json` |
+| **项目路径** | `<project>/.opencode/` | `<project>/.newtype/` |
+| **品牌文案** | 保持 OpenCode 相关措辞 | 所有用户可见文案改为 "Newtype" |
+| **config scope** | `"opencode"` | `"newtype"` |
+| **发布方式** | `npm publish` 独立发布 | 随 newtype-cli CI 一起构建 |
+
+### 已产生的代码差异 (v0.0.4+)
+
+内嵌版相比独立版，做了以下品牌化修改：
+
+1. **`src/plugin-config.ts`** — config scope 从 `"opencode"` 改为 `"newtype"`
+2. **`src/agents/chief.ts`** — prompt 中的路径引用 `.opencode/` → `.newtype/`（4 处）
+3. **`src/cli/install.ts`** — CLI 指令提示 `"Run opencode"` → `"Run newtype"`
+
+### 同步规则
+
+- `sync-plugin.yml` 会从本仓库同步到 newtype-cli，但**同步后需要重新应用上述品牌化修改**
+- 修改独立插件的功能代码时，不需要考虑 newtype-cli 的品牌差异
+- 修改 newtype-cli 内嵌版时，**只在 newtype-cli 仓库操作，不要修改本仓库**
+
 ## CONFIGURATION
+
+### As standalone plugin (in OpenCode)
 
 **User**: `~/.config/opencode/newtype-profile.json`
 **Project**: `<project>/.opencode/newtype-profile.json`
 
+### As embedded plugin (in Newtype CLI)
+
+**User**: `~/.config/newtype/newtype-profile.json`
+**Project**: `<project>/.newtype/newtype-profile.json`
+
+### Config format
+
 ```json
 {
-  "google_auth": true,
   "agents": {
-    "chief": { "model": "google/antigravity-claude-opus-4-5-thinking-high" },
-    "writer": { "model": "google/antigravity-gemini-3-pro-high", "temperature": 0.7 }
+    "chief": { "model": "your-preferred-model" },
+    "deputy": { "model": "your-preferred-model" },
+    "writer": { "model": "your-preferred-model", "temperature": 0.7 }
   }
 }
 ```
 
+Optional fields:
+- `google_auth: true` — Only needed for Google Antigravity OAuth provider
+- `agents` — Override default models for any of the 8 agents
+
 ## DEPLOYMENT
+
+### newtype-profile (standalone plugin)
 
 ```bash
 npm version patch   # Bump version
 npm publish --access public --otp=<code>
 git push origin main --follow-tags
 ```
+
+### newtype-cli (fork product)
+
+Publish via GitHub Actions workflow `publish-newtype.yml`:
+1. Go to https://github.com/newtype-01/newtype-cli/actions/workflows/publish-newtype.yml
+2. Click "Run workflow" → select bump type (patch/minor/major) or override version
+3. CI builds all 12 platform binaries + 1 wrapper package → publishes to npm automatically
+
+Manual version override: use the `version` input field (e.g. `0.0.3`)
+
+## NEWTYPE-CLI (FORK PRODUCT)
+
+### Overview
+
+newtype-cli is a **shallow fork of OpenCode** (anomalyco/opencode), white-labeled as "Newtype" with newtype-profile embedded.
+
+| Aspect | Detail |
+|--------|--------|
+| npm package | `newtype-cli` |
+| GitHub repo | `newtype-01/newtype-cli` (private) |
+| CLI command | `newtype` |
+| User config dir | `~/.config/newtype/` |
+| Project config dir | `<project>/.newtype/` |
+| OpenCode config dir | `~/.config/opencode/` (kept for backward compat) |
+| Env vars | `OPENCODE_*` kept for backward compatibility |
+| Import packages | `@opencode-ai/*` unchanged |
+| Base version | OpenCode v1.2.4 (commit `eb553f5`) |
+
+### Installation
+
+```bash
+npm install -g newtype-cli
+newtype          # Launch
+newtype --version
+newtype --help
+```
+
+### Repository Structure
+
+```
+newtype-cli/                          # Fork of anomalyco/opencode
+├── packages/opencode/                # Core CLI (name=newtype-cli, bin=newtype)
+│   ├── src/global/index.ts           # app = "newtype"
+│   ├── src/config/config.ts          # .newtype/ dirs
+│   ├── src/plugin/index.ts           # INTERNAL_PLUGINS includes NewtypeProfilePlugin
+│   ├── src/cli/logo.ts               # ASCII art "NEWTYPE"
+│   └── script/
+│       ├── build.ts                  # Builds 12 platform binaries
+│       ├── publish.ts                # Packs + publishes to npm
+│       └── postinstall.mjs           # Platform binary resolution
+├── packages/newtype-profile/         # Embedded plugin (440+ files)
+├── packages/script/src/index.ts      # @opencode-ai/script — version from npm registry
+├── script/
+│   ├── publish.ts                    # Root publish orchestrator
+│   ├── version.ts                    # Version determination
+│   └── local-publish.sh             # Manual OTP-based publish (fallback)
+└── .github/workflows/
+    ├── publish-newtype.yml           # CI publish (auto npm publish)
+    ├── sync-upstream.yml             # Weekly upstream sync from anomalyco/opencode
+    └── sync-plugin.yml              # Manual plugin sync from newtype-profile
+```
+
+### npm Package Architecture
+
+13 packages total: 12 platform binaries + 1 wrapper
+
+| Package | Platform |
+|---------|----------|
+| `newtype-cli` | Wrapper (optionalDependencies → platform pkgs) |
+| `newtype-cli-darwin-arm64` | macOS Apple Silicon |
+| `newtype-cli-darwin-x64` | macOS Intel |
+| `newtype-cli-darwin-x64-baseline` | macOS Intel (no AVX2) |
+| `newtype-cli-linux-arm64` | Linux ARM64 |
+| `newtype-cli-linux-x64` | Linux x64 |
+| `newtype-cli-linux-x64-baseline` | Linux x64 (no AVX2) |
+| `newtype-cli-linux-arm64-musl` | Linux ARM64 musl (Alpine) |
+| `newtype-cli-linux-x64-musl` | Linux x64 musl |
+| `newtype-cli-linux-x64-musl-baseline` | Linux x64 musl (no AVX2) |
+| `newtype-cli-windows-x64` | Windows x64 |
+| `newtype-cli-windows-x64-baseline` | Windows x64 (no AVX2) |
+
+### Publishing Lessons Learned
+
+| Issue | Root Cause | Fix |
+|-------|-----------|-----|
+| `EOTP` error | npm Granular Access Token requires OTP even with 2FA disabled | Create token with "bypass 2FA" enabled |
+| `E403 Two-factor authentication required` | Granular token missing bypass 2FA permission | Recreate token with bypass 2FA checkbox |
+| `cannot publish over previously published version` | Partial publish left some packages at old version | Added `.nothrow()` + "already published" tolerance in publish script |
+| `ENEEDAUTH` | `.npmrc` had literal `${NODE_AUTH_TOKEN}` | Read `process.env.NODE_AUTH_TOKEN` in script, write real token |
+| `nothing to commit` | Release commit idempotency | `git diff --cached --quiet \|\|` guard |
+| `bad revision 'v1.2.4..HEAD'` | Upstream tag references in changelog | Simplified version.ts, removed changelog |
+| `stale tag` | Failed run left orphan tag | `git tag -f` + `git push origin <tag> --force` |
+| npm Classic Automation Token unavailable | npm account had 2FA enabled | Disable 2FA first, or use Granular token with bypass 2FA |
+
+### CI/CD Accounts & Secrets
+
+| Resource | Value |
+|----------|-------|
+| GitHub org | `newtype-01` |
+| npm account | `huangyihe` |
+| GitHub secret `NPM_TOKEN` | Granular Access Token with bypass 2FA, read+write packages |
+| Git committer (CI) | `newtype-bot <bot@newtype.dev>` |
+
+### Current Published Version
+
+- **v0.0.2** — First successful full publish (2026-02-16)
+- v0.0.1 — Partial publish (4 platform packages only, orphaned)
 
 ## RECENT CHANGES (v1.0.22 - v1.0.29)
 
