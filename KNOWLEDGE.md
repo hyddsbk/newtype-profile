@@ -91,64 +91,70 @@ newtype-profile/
 
 ## CONTENT KNOWLEDGE BASE
 
-### vape_news/ - 电子烟行业知识库
+### baoqi_library/ - 电动推杆行业知识库
 
-**Location**: `./vape_news/`
+**Location**: `./baoqi_library/`
 **Type**: Obsidian Vault + Markdown Knowledge Base
-**Total Files**: 151 (146 .md + 5 .json config)
-**Language**: Chinese (中文)
+**Total Files**: ~100+ markdown files
+**Language**: Chinese (中文) + English
 
 #### Purpose
-Industry intelligence repository for the vaping/e-cigarette sector. Used for content creation research on HNB (Heat-Not-Burn) technology, e-cigarette regulations, market trends, and supply chain analysis.
+Industry intelligence repository for the electric actuator (电动推杆) and lifting column (升降柱) sector. Contains product specifications, technical guides, industry news, and application case studies. Used for content creation research on linear actuator technology, product selection, and industrial/home automation applications.
 
 #### Directory Structure
 
 ```
-vape_news/
-├── .obsidian/                    # Obsidian vault configuration (5 files)
-├── 01 - INPUT/                   # 133 files - Raw article imports
-│   ├── 01 - articles/            # ~13 articles (batch 01)
-│   ├── 02 - articles/            # ~10 articles (batch 02)
-│   ├── ...                       # Batches 03-13 (10 files each)
-│   └── 14 - articles/            # Empty
-├── 02 - PROCESSING/              # 13 files - Analyzed weekly reports
+baoqi_library/
+├── .obsidian/                    # Obsidian vault configuration
+├── 01 - INPUT/                   # Raw article imports (folders 2-23)
+│   ├── 2 - articles/            # ~9 articles (basic knowledge)
+│   ├── 3 - articles/            # Lifting columns
+│   ├── 4 - articles/             # Linear modules
+│   ├── 5 - articles/             # Actuator basics
+│   ├── 6 - articles/             # Electric actuators
+│   ├── 7 - articles/             # Screw elevators
+│   ├── 8 - articles/             # DIY projects
+│   ├── 9 - articles/             # Troubleshooting & selection
+│   └── ... (10-23)               # Various topics
+├── 02 - PROCESSING/              # Analyzed content
 │   └── 01 - Daily-Reading/
+│       ├── product catalog.md    # Product specifications (HR61, IP42, IP60, IP70, IP80, IP600, IP800, IP1200, IP3000H, IP3000L)
+│       ├── actulift website catalog link.md
 │       └── 01 - Article/
-│           ├── 01-articles-collection-analysis.md    # 综合周报
-│           ├── 02-articles-collection-analysis.md    # 深度周报
-│           └── 03-articles.md to 13 - articles.md    # Weekly reports
-└── 03 - OUTPUT/                  # Output folder (empty)
+│           ├── 2 - articles.md to 18 - articles.md  # Weekly/daily analysis reports
+├── 03 - OUTPUT/                  # Output folder (empty)
 ```
 
 #### Key Documents in 02 - PROCESSING
 
 | File | Description | Topics |
 |------|-------------|--------|
-| `01-articles-collection-analysis.md` | Comprehensive weekly (2024.03-2025.10) | HNB, ceramic cores, regulations, market dynamics |
-| `02-articles-collection-analysis.md` | In-depth weekly (2025.02 Week 2) | Product tech, supply chain, policy, trends |
-| `03-articles.md` to `13 - articles.md` | Weekly synthesis reports | Various industry topics |
+| `product catalog.md` | Complete product specifications for 10+ actuator models | HR61, IP42, IP60, IP70, IP80, IP600, IP800, IP1200, IP3000H, IP3000L |
+| `2 - articles.md` to `18 - articles.md` | Weekly/daily synthesis reports | Technology, selection, applications, industry trends |
 
 #### Content Topics
 
-- **Technology**: HNB, ceramic cores (Feelm), glass cores (G-Mesh), cotton cores
-- **Supply Chain**: Manufacturing automation, materials (PCTG, aluminum), atomization technology
-- **Regulations**: UK vaping laws, EU policies, Indonesia compliance, taxation
-- **Market Dynamics**: Sales data, brand analysis (IQOS, glo, Ploom), regional markets (Japan, UK, US)
-- **Products**: Disposable vapes, pod systems, nicotine pouches
+- **Product Specifications**: Technical specs for electric linear actuators (force, speed, stroke, voltage, IP rating)
+- **Technology**: Working principles, duty cycle, IP ratings, motor types, limit switches
+- **Selection Guide**: How to choose actuators for different applications
+- **Applications**: Industrial automation, home furniture (standing desks), medical equipment, automotive
+- **Brands**: ActuLift
+- **Products**: Linear actuators, lifting columns, electric lifting columns, telescopic columns
+- **Standards**: CCC certification, CE, RoHS
 
 #### Workflow Pattern
 
 **3-Stage Processing Pipeline**:
-1. **INPUT** → Raw article imports (batches 01-14)
-2. **PROCESSING** → AI-generated weekly synthesis with analysis
+1. **INPUT** → Raw article imports (batches 2-23)
+2. **PROCESSING** → AI-generated analysis with product specs and summaries
 3. **OUTPUT** → Final deliverables (currently empty)
 
 #### How to Reference
 
-When writing content about the vaping industry:
-- Search `vape_news/02 - PROCESSING/` for pre-analyzed weekly reports
-- Check `vape_news/01 - INPUT/` for raw source articles by batch number
-- Reports include: content summaries, key points, and industry insights
+When writing content about electric actuators:
+- Search `baoqi_library/02 - PROCESSING/` for product catalogs and analyzed reports
+- Check `baoqi_library/01 - INPUT/` for raw source articles by topic folder
+- Product catalog contains detailed specs for 10+ actuator models
 
 ---
 
