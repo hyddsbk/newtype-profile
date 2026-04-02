@@ -37,3 +37,10 @@ baoqi_library/
 Library-helpcenter/
 .gitignore
 assets/
+.obsidian/
+00 - HelpCenter/
+01 - INPUT/
+02 - PROCESSING/
+AGENTS.md
+KNOWLEDGE.md
+oh-my-opencode.schema.json
