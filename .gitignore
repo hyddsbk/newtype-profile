@@ -31,6 +31,7 @@ test-injection/
 notepad.md
 oauth-success.html
 
+<<<<<<< HEAD
 # me
 .opencode/
 AAA-helpcenter
@@ -39,3 +40,14 @@ baoqi_library/
 Library-helpcenter/
 .gitignore
 assets/
+.obsidian/
+00 - HelpCenter/
+01 - INPUT/
+02 - PROCESSING/
+AGENTS.md
+KNOWLEDGE.md
+oh-my-opencode.schema.json
+=======
+# Project-level agent instructions (contains internal info, not for public repo)
+AGENTS.md
+>>>>>>> 1948401273c3b96150d12c8f395a7bb0f41d9583
