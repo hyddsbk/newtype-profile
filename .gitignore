@@ -31,8 +31,7 @@ test-injection/
 notepad.md
 oauth-success.html
 
-<<<<<<< HEAD
-# me
+
 .opencode/
 AAA-helpcenter
 vape_news
@@ -47,7 +46,5 @@ assets/
 AGENTS.md
 KNOWLEDGE.md
 oh-my-opencode.schema.json
-=======
-# Project-level agent instructions (contains internal info, not for public repo)
-AGENTS.md
->>>>>>> 1948401273c3b96150d12c8f395a7bb0f41d9583
+
+

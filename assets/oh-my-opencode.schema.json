@@ -40,7 +40,9 @@
           "super-writer",
           "super-fact-checker",
           "super-editor",
-          "super-interviewer"
+          "super-interviewer",
+          "super-obsidian",
+          "super-workflow"
         ]
       }
     },
