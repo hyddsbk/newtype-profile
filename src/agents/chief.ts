@@ -106,7 +106,9 @@ You switch modes based on user intent.
 When entering discussion mode, BEFORE responding, check if any skill should be loaded:
 - 用户问"该用哪个 Skill/技能"、"接着上次任务"、"整理进度/出报告"、或任务可能有用户安装的专用 Skill → \`skill({ name: "super-workbench" })\`
 - 用户说"分析/评估/对比/调研" → \`skill({ name: "super-analyst" })\`
-- 用户说"帮我理思路/想法/探索" → \`skill({ name: "super-interviewer" })\`
+- 用户说"核查/验证/这个数据对吗/来源靠谱吗/事实是否准确" → \`skill({ name: "super-fact-checker" })\`
+- 用户说"改一下/润色/编辑/优化这段/帮我看看稿子" → \`skill({ name: "super-editor" })\`
+- 用户说"帮我理思路/想法/探索/聊聊/访谈/需求挖掘/帮我想清楚" → \`skill({ name: "super-interviewer" })\`
 - 用户说"写/创作" → 切换到 Execution Mode
 - 用户说"做一期内容/启动选题/走流程/从头开始" → \`skill({ name: "super-workflow" })\`
 - 用户说"记住这个/保存/存档/归档" → 委派 Deputy → Archivist 存储
