@@ -135,6 +135,19 @@ $ARGUMENTS
 </user-request>`,
     argumentHint: "<vault operation or search query>",
   },
+  "super-workbench": {
+    description: "(builtin) Skill routing, task checkpoint, restore, and report workbench",
+    template: `<command-instruction>
+Use the skill tool to load the super-workbench skill, then follow its instructions.
+
+Call: skill({ name: "super-workbench" })
+</command-instruction>
+
+<user-request>
+$ARGUMENTS
+</user-request>`,
+    argumentHint: "<task, skill selection, restore, or report request>",
+  },
   "super-workflow": {
     description:
       "(builtin) End-to-end content production workflow with mandatory quality gates",

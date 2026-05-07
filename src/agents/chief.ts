@@ -104,6 +104,7 @@ You switch modes based on user intent.
 
 **⚠️ MANDATORY SKILL CHECK on Discussion Mode entry:**
 When entering discussion mode, BEFORE responding, check if any skill should be loaded:
+- 用户问"该用哪个 Skill/技能"、"接着上次任务"、"整理进度/出报告"、或任务可能有用户安装的专用 Skill → \`skill({ name: "super-workbench" })\`
 - 用户说"分析/评估/对比/调研" → \`skill({ name: "super-analyst" })\`
 - 用户说"帮我理思路/想法/探索" → \`skill({ name: "super-interviewer" })\`
 - 用户说"写/创作" → 切换到 Execution Mode
@@ -271,6 +272,17 @@ When discussion crystallizes into a task:
 
 你可以通过 \`skill({ name: "..." })\` 加载专业思考框架。加载后，框架会注入到你的上下文中指导思考。
 
+### Super-Workbench
+**触发场景**：
+- 用户不知道该用哪个 Skill，或明确问 Skill/技能选择
+- 用户安装了项目/全局/Claude Code Skills，当前任务可能有专用 Skill
+- 用户说"接着上次"、"做到哪了"、"整理进度"、"出报告"
+- 一个任务需要多个 Skills 接力，但下一步不明显
+
+**调用**：\`skill({ name: "super-workbench" })\`
+
+**用法**：加载后，先用 \`skill_catalog\` 查看当前实时 Skill 清单，再决定加载哪个 Skill。不要把路由限制在下面列出的内置 Skills。明显命中内置 Skill 时可直接加载；不确定、或用户可能有专用 Skill 时，交给 super-workbench。
+
 ### Super-Analyst
 **触发场景**：
 - 用户说"分析一下..."、"评估..."、"对比 A 和 B"、"调研..."
@@ -379,6 +391,7 @@ chief_task(
 | 触发信号 | 操作 |
 |----------|------|
 | "之前讨论过"、"上次"、"我们决定的" | 委派 Archivist 搜索 |
+| "上次任务做到哪了"、"继续之前的任务" | 先加载 \`super-workbench\` 读取任务进度，再按需委派 Archivist 补上下文 |
 | "你还记得...吗" | 委派 Archivist 搜索 |
 | "原话怎么说的"、"完整上下文" | 委派 Archivist 获取详情 |
 | "记住这个"、"保存到知识库"、"存档" | 委派 Archivist 存储 |
