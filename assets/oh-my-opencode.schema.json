@@ -42,6 +42,7 @@
           "super-editor",
           "super-interviewer",
           "super-obsidian",
+          "super-workbench",
           "super-workflow"
         ]
       }
@@ -82,6 +83,7 @@
           "prometheus-md-only",
           "chief-orchestrator",
           "memory-system",
+          "workbench-checkpoint",
           "startup-config-checker"
         ]
       }
@@ -94,7 +96,8 @@
           "wiki",
           "ralph-loop",
           "cancel-ralph",
-          "switch"
+          "switch",
+          "super-workbench"
         ]
       }
     },
