@@ -91,7 +91,7 @@
       "items": {
         "type": "string",
         "enum": [
-          "init-deep",
+          "wiki",
           "ralph-loop",
           "cancel-ralph",
           "switch"

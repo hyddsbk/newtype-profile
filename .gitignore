@@ -35,6 +35,7 @@ oauth-success.html
 .opencode/
 AAA-helpcenter
 vape_news
+NexPuff_New
 baoqi_library/
 Library-helpcenter/
 .gitignore
@@ -46,5 +47,3 @@ assets/
 AGENTS.md
 KNOWLEDGE.md
 oh-my-opencode.schema.json
-
-
